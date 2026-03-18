@@ -222,3 +222,27 @@ h1, h2, h3 {
 .gh-accent-java  { border-top: 2px solid #6a4818; }
 .gh-accent-css   { border-top: 2px solid #483858; }
 .gh-accent-other { border-top: 2px solid #484838; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — Mobile fixes
+═══════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  /* Hero scroll indicator */
+  .scroll-indicator { display: none !important; }
+
+  /* Reduce section padding on small screens */
+  section { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+
+  /* Info cards in About — stack on very small screens */
+  .about-info-grid { grid-template-columns: 1fr !important; }
+
+  /* Nav brand logo — don't overflow */
+  nav img { max-height: 40px !important; }
+
+  /* Contact cards — allow text wrap */
+  .card .text-sm { word-break: break-all; }
+
+  /* Skills cloud — center on mobile */
+  .skill-cloud-wrap { display: flex; justify-content: center; }
+  .skill-cloud-wrap > div { max-width: min(90vw, 320px) !important; }
+}

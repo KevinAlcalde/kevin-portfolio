@@ -47,11 +47,11 @@ export default function Skills() {
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* 3D Cloud */}
-          <div className="reveal flex flex-col items-center">
-            <div className="relative">
+          <div className="reveal flex flex-col items-center w-full">
+            <div className="relative w-full overflow-hidden" style={{ maxWidth: 360 }}>
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-72 h-72 rounded-full" style={{ border: '1px solid rgba(122,150,64,0.07)' }} />
-                <div className="absolute w-60 h-60 rounded-full" style={{ border: '1px solid rgba(247,76,25,0.06)' }} />
+                <div className="w-[72%] h-[72%] rounded-full" style={{ border: '1px solid rgba(122,150,64,0.07)' }} />
+                <div className="absolute w-[60%] h-[60%] rounded-full" style={{ border: '1px solid rgba(247,76,25,0.06)' }} />
               </div>
               <SkillCloud />
             </div>

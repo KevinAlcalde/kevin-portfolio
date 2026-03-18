@@ -36,7 +36,8 @@ export default function SkillCloud() {
     const container = containerRef.current;
     if (!container) return;
 
-    const RADIUS = 152;
+    const size = Math.min(container.clientWidth, container.clientHeight);
+    const RADIUS = size * 0.42;
     const N = SKILLS.length;
 
     const positions = SKILLS.map((_, i) => {
@@ -132,8 +133,8 @@ export default function SkillCloud() {
   return (
     <div
       ref={containerRef}
-      className="relative"
-      style={{ width: 360, height: 360, cursor: 'grab' }}
+      className="relative w-full aspect-square"
+      style={{ maxWidth: 360, cursor: 'grab' }}
       title="Drag to rotate"
     />
   );
