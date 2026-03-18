@@ -1,20 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const ThemeToggle = dynamic(() => import('./ThemeToggle'), { ssr: false });
 
 const links = [
-  { label: 'about',        href: '#about' },
-  { label: 'skills',       href: '#skills' },
-  { label: 'projects',     href: '#projects' },
-  { label: 'github',       href: '#github' },
-  { label: 'experience',   href: '#experience' },
-  { label: 'achievements', href: '#achievements' },
-  { label: 'contact',      href: '#contact' },
+  { label: 'about',     href: '#about' },
+  { label: 'skills',    href: '#skills' },
+  { label: 'projects',  href: '#projects' },
+  { label: 'github',    href: '#github' },
+  { label: 'exp',       href: '#experience' },
+  { label: 'logros',    href: '#achievements' },
+  { label: 'contact',   href: '#contact' },
 ];
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen]         = useState(false);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -24,51 +27,75 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'border-b backdrop-blur-xl'
-          : ''
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500`}
       style={scrolled ? {
-        background: 'rgba(8,8,7,0.88)',
-        borderColor: 'rgba(122,150,64,0.12)',
+        background: 'var(--glass)',
+        backdropFilter: 'blur(14px)',
+        borderBottom: '1px solid var(--line)',
       } : {}}
     >
-      <div className="max-w-screen-xl mx-auto px-8 md:px-16 lg:px-24 py-5 flex items-center justify-between">
+      <div className="max-w-screen-xl mx-auto px-8 md:px-16 lg:px-24 py-4 flex items-center gap-8">
         {/* Logo */}
-        <a href="#hero" className="font-mono text-sm tracking-[0.2em] hover:text-[var(--accent)] transition-colors"
-          style={{ fontFamily: 'Orbitron, monospace', color: 'var(--text)', fontWeight: 700 }}>
-          KA<span style={{ color: 'var(--accent)' }}>_</span>
+        <a
+          href="#hero"
+          style={{
+            fontFamily: 'Orbitron, monospace',
+            color: 'var(--text)',
+            fontWeight: 800,
+            fontSize: '0.9rem',
+            letterSpacing: '0.15em',
+            marginRight: 'auto',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = 'var(--highlight)')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'var(--text)')}
+        >
+          KA<span style={{ color: 'var(--highlight)' }}>_</span>
         </a>
 
-        {/* Desktop */}
-        <ul className="hidden md:flex items-center gap-8">
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-7">
           {links.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="section-label hover:text-[var(--text)] transition-colors">
+              <a
+                href={l.href}
+                className="section-label transition-colors"
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = '')}
+              >
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
 
+        {/* Theme toggle */}
+        <ThemeToggle />
+
         {/* Status badge */}
         <a
           href="mailto:kevinalejandroalcalde@gmail.com"
-          className="hidden md:flex items-center gap-2 text-[0.65rem] tracking-widest uppercase px-3 py-1.5 transition-colors"
+          className="hidden lg:flex items-center gap-2"
           style={{
             fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.62rem',
+            letterSpacing: '0.12em',
             color: 'var(--green)',
-            border: '1px solid rgba(77,122,50,0.25)',
+            border: '1px solid rgba(77,122,50,0.22)',
+            padding: '5px 10px',
+            transition: 'border-color 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(77,122,50,0.6)')}
-          onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(77,122,50,0.25)')}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.borderColor = 'var(--green)')}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.borderColor = 'rgba(77,122,50,0.22)')}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--green)] animate-pulse" />
-          STATUS: ONLINE
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse"
+            style={{ background: 'var(--green)' }}
+          />
+          STATUS:ONLINE
         </a>
 
-        {/* Mobile */}
+        {/* Mobile hamburger */}
         <button
           className="md:hidden"
           style={{ color: 'var(--muted)' }}
@@ -82,12 +109,25 @@ export default function Navigation() {
         </button>
       </div>
 
+      {/* Mobile menu */}
       {open && (
-        <div className="md:hidden backdrop-blur-xl px-8 py-6 space-y-5"
-          style={{ background: 'rgba(8,8,7,0.97)', borderTop: '1px solid var(--line)' }}>
+        <div
+          className="md:hidden px-8 py-6 space-y-5"
+          style={{
+            background: 'var(--glass)',
+            backdropFilter: 'blur(14px)',
+            borderTop: '1px solid var(--line)',
+          }}
+        >
           {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-              className="block section-label hover:text-[var(--text)] transition-colors">
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="block section-label transition-colors"
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
+              onMouseLeave={e => (e.currentTarget.style.color = '')}
+            >
               {l.label}
             </a>
           ))}

@@ -2,30 +2,31 @@
 
 import { useEffect, useRef } from 'react';
 
+// Pure military-khaki-olive palette for the 3D cloud
 const SKILLS = [
-  { label: 'React',       color: '#7a9640' },
-  { label: 'Next.js',     color: '#c8c4a0' },
-  { label: 'Three.js',    color: '#8aaa4a' },
-  { label: 'TypeScript',  color: '#6a8090' },
-  { label: 'Node.js',     color: '#6a8050' },
-  { label: 'Python',      color: '#b8a840' },
-  { label: 'Solidity',    color: '#9a7c30' },
-  { label: 'Blockchain',  color: '#b89030' },
-  { label: 'Web3',        color: '#9060a0' },
-  { label: 'IoT',         color: '#5a8a4a' },
-  { label: 'SQL',         color: '#607888' },
-  { label: 'C++',         color: '#8a5060' },
-  { label: 'Java',        color: '#a06828' },
-  { label: 'Docker',      color: '#5880a0' },
-  { label: 'AWS',         color: '#b07830' },
-  { label: 'N8N',         color: '#a06048' },
-  { label: 'Arduino',     color: '#4a8878' },
-  { label: 'Hardhat',     color: '#a8a030' },
-  { label: 'AutoCAD',     color: '#9a3838' },
-  { label: 'Rhinoceros',  color: '#787868' },
+  { label: 'React',       color: '#8aaa48' },
+  { label: 'Next.js',     color: '#c0bb95' },
+  { label: 'Three.js',    color: '#9aaa4a' },
+  { label: 'TypeScript',  color: '#5a7888' },
+  { label: 'Node.js',     color: '#789050' },
+  { label: 'Python',      color: '#b8a038' },
+  { label: 'Solidity',    color: '#b07820' },
+  { label: 'Blockchain',  color: '#c08020' },
+  { label: 'Web3',        color: '#F74C19' },  // highlight
+  { label: 'IoT',         color: '#5a8a48' },
+  { label: 'SQL',         color: '#607080' },
+  { label: 'C++',         color: '#8a4040' },
+  { label: 'Java',        color: '#9a5820' },
+  { label: 'Docker',      color: '#507088' },
+  { label: 'AWS',         color: '#b07028' },
+  { label: 'N8N',         color: '#F74C19' },  // highlight
+  { label: 'Arduino',     color: '#4a8870' },
+  { label: 'Hardhat',     color: '#a09820' },
+  { label: 'AutoCAD',     color: '#8a3828' },
+  { label: 'Rhinoceros',  color: '#787860' },
   { label: 'WebGL',       color: '#7a9640' },
-  { label: 'Git',         color: '#9a5830' },
-  { label: 'GLSL',        color: '#5a8870' },
+  { label: 'Git',         color: '#9a5028' },
+  { label: 'GLSL',        color: '#5a8868' },
 ];
 
 export default function SkillCloud() {
@@ -35,7 +36,7 @@ export default function SkillCloud() {
     const container = containerRef.current;
     if (!container) return;
 
-    const RADIUS = 155;
+    const RADIUS = 152;
     const N = SKILLS.length;
 
     const positions = SKILLS.map((_, i) => {
@@ -49,43 +50,43 @@ export default function SkillCloud() {
     });
 
     const spans: HTMLSpanElement[] = [];
-    SKILLS.forEach((skill, i) => {
+    SKILLS.forEach((skill, _i) => {
       const span = document.createElement('span');
       span.textContent = skill.label;
-      span.style.position = 'absolute';
-      span.style.left = '50%';
-      span.style.top = '50%';
+      span.style.position   = 'absolute';
+      span.style.left       = '50%';
+      span.style.top        = '50%';
       span.style.fontFamily = 'JetBrains Mono, monospace';
-      span.style.fontSize = '11px';
+      span.style.fontSize   = '11px';
       span.style.fontWeight = '600';
       span.style.letterSpacing = '0.08em';
-      span.style.color = skill.color;
-      span.style.cursor = 'default';
+      span.style.color      = skill.color;
+      span.style.cursor     = 'default';
       span.style.userSelect = 'none';
       span.style.textShadow = `0 0 6px ${skill.color}44`;
       span.style.transition = 'font-size 0.3s, text-shadow 0.3s';
       span.style.whiteSpace = 'nowrap';
+      span.style.textTransform = 'uppercase';
       container.appendChild(span);
       spans.push(span);
 
       span.addEventListener('mouseenter', () => {
-        span.style.fontSize = '13px';
-        span.style.textShadow = `0 0 12px ${skill.color}, 0 0 24px ${skill.color}66`;
+        span.style.fontSize   = '13px';
+        span.style.textShadow = `0 0 14px ${skill.color}, 0 0 28px ${skill.color}55`;
       });
       span.addEventListener('mouseleave', () => {
-        span.style.fontSize = '11px';
+        span.style.fontSize   = '11px';
         span.style.textShadow = `0 0 6px ${skill.color}44`;
       });
     });
 
-    let angleY = 0.002;
-    let angleX = 0.0008;
+    let angleY = 0.002, angleX = 0.0008;
     let raf: number;
-
     let dragging = false, lx = 0, ly = 0;
-    const onDown  = (e: MouseEvent) => { dragging = true; lx = e.clientX; ly = e.clientY; };
-    const onUp    = () => { dragging = false; };
-    const onMove  = (e: MouseEvent) => {
+
+    const onDown = (e: MouseEvent) => { dragging = true; lx = e.clientX; ly = e.clientY; };
+    const onUp   = () => { dragging = false; };
+    const onMove = (e: MouseEvent) => {
       if (!dragging) return;
       angleY = (e.clientX - lx) * 0.0003;
       angleX = (e.clientY - ly) * 0.0003;
@@ -100,9 +101,7 @@ export default function SkillCloud() {
 
     const render = () => {
       raf = requestAnimationFrame(render);
-      rotY += angleY;
-      rotX += angleX;
-
+      rotY += angleY; rotX += angleX;
       const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
       const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
 
