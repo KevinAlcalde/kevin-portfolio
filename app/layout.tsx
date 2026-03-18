@@ -2,27 +2,15 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Kevin Alcalde | Electronics Engineer & Entrepreneur',
+  title: 'Kevin Alcalde // ENG + DEV + FOUNDER',
   description:
-    'Portfolio de Kevin Alcalde — Ingeniero Electrónico, emprendedor y desarrollador full-stack de Mendoza, Argentina. Especializado en IoT, Blockchain, Web3 y tecnología sostenible.',
-  keywords: [
-    'Kevin Alcalde',
-    'Ingeniería Electrónica',
-    'IoT',
-    'Blockchain',
-    'Solidity',
-    'Web3',
-    'Mendoza Argentina',
-    'React',
-    'Next.js',
-    'Three.js',
-  ],
+    'Kevin Alcalde — Ingeniero Electrónico, desarrollador full-stack, fundador. IoT · Blockchain · WebGL · Mendoza, Argentina.',
+  keywords: ['Kevin Alcalde', 'Ingeniería Electrónica', 'IoT', 'Blockchain', 'Solidity', 'React', 'Three.js'],
   authors: [{ name: 'Kevin Alejandro Alcalde' }],
   openGraph: {
-    title: 'Kevin Alcalde | Engineer & Entrepreneur',
-    description: 'Electronics Engineer, Full-Stack Developer & Serial Entrepreneur from Mendoza, Argentina',
+    title: 'Kevin Alcalde // ENG + DEV + FOUNDER',
+    description: 'Electronics Engineer · Full-Stack · Blockchain · Mendoza, Argentina',
     type: 'website',
-    url: 'https://kevin.alcalde',
   },
 };
 
@@ -32,12 +20,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Orbitron → military/sci-fi headings | JetBrains Mono → geek body */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#030712] text-slate-100 antialiased">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

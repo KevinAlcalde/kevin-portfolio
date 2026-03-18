@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --bg: #060608;
-  --bg2: #0c0c12;
-  --bg3: #111118;
-  --text: #e8e8ec;
-  --muted: #5a5a6e;
-  --accent: #00cfff;
-  --accent2: #7b5af0;
-  --green: #00e5a0;
-  --line: rgba(255,255,255,0.06);
+  --bg:      #080807;
+  --bg2:     #0f0f0b;
+  --bg3:     #161610;
+  --text:    #d4cfb2;
+  --muted:   #5e5d48;
+  --accent:  #7a9640;   /* army olive */
+  --accent2: #9a7c30;   /* field gold  */
+  --green:   #4d7a32;   /* military green */
+  --red:     #7a3a28;   /* field red (subtle) */
+  --line:    rgba(122,150,64,0.12);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -29,30 +29,33 @@ body {
 /* ── Scrollbar ─────────────────────────── */
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(0,207,255,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(122,150,64,0.4);
+  border-radius: 0;
+}
 
 /* ── Selection ─────────────────────────── */
-::selection { background: rgba(0,207,255,0.2); color: #fff; }
+::selection { background: rgba(122,150,64,0.25); color: #e8e4cc; }
 
 /* ── Section label ─────────────────────── */
 .section-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 /* ── Gradient text ─────────────────────── */
 .g-text {
-  background: linear-gradient(120deg, #00cfff 0%, #7b5af0 60%, #00e5a0 100%);
+  background: linear-gradient(120deg, #7a9640 0%, #9a7c30 50%, #5a7a3a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.g-text-cyan {
-  background: linear-gradient(90deg, #00cfff, #40e0ff);
+.g-text-olive {
+  background: linear-gradient(90deg, #8aaa4a, #b09040);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -60,95 +63,122 @@ body {
 
 /* ── Card ──────────────────────────────── */
 .card {
-  background: rgba(255,255,255,0.025);
+  background: rgba(255,255,255,0.02);
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: 0;
   transition: background 0.3s, border-color 0.3s, transform 0.3s;
 }
 .card:hover {
-  background: rgba(0,207,255,0.04);
-  border-color: rgba(0,207,255,0.18);
-  transform: translateY(-3px);
+  background: rgba(122,150,64,0.04);
+  border-color: rgba(122,150,64,0.22);
+  transform: translateY(-2px);
 }
 
 /* ── Reveal ────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(24px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ── Divider line ──────────────────────── */
-.h-line {
-  height: 1px;
-  background: var(--line);
-  width: 100%;
-}
+/* ── Divider ───────────────────────────── */
+.h-line { height: 1px; background: var(--line); width: 100%; }
 
-/* ── Monospace badge ───────────────────── */
+/* ── Mono badge ────────────────────────── */
 .mono-badge {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  padding: 3px 9px;
-  border-radius: 2px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 0;
+  background: rgba(122,150,64,0.07);
+  border: 1px solid rgba(122,150,64,0.18);
   color: var(--muted);
+  letter-spacing: 0.08em;
 }
 
-/* ── Skill pill ────────────────────────── */
+/* ── Pill ──────────────────────────────── */
 .pill {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 2px;
-  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 0;
+  font-size: 0.7rem;
   font-weight: 500;
-  border: 1px solid rgba(0,207,255,0.15);
-  background: rgba(0,207,255,0.05);
-  color: rgba(0,207,255,0.8);
+  border: 1px solid rgba(122,150,64,0.2);
+  background: rgba(122,150,64,0.06);
+  color: rgba(154,170,80,0.85);
   transition: all 0.2s;
+  font-family: 'JetBrains Mono', monospace;
 }
 .pill:hover {
-  background: rgba(0,207,255,0.12);
-  border-color: rgba(0,207,255,0.4);
-  color: #00cfff;
+  background: rgba(122,150,64,0.14);
+  border-color: rgba(122,150,64,0.45);
+  color: #9aaa50;
 }
 
-/* ── Cursor ────────────────────────────── */
+/* ── Cursor glow ───────────────────────── */
 .cursor-glow {
   pointer-events: none;
   position: fixed;
   width: 500px; height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,207,255,0.045) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(100,130,50,0.04) 0%, transparent 65%);
   transform: translate(-50%, -50%);
   z-index: 0;
-  transition: opacity 0.4s;
 }
 
-/* ── Project cover gradients ───────────── */
-.cover-1  { background: linear-gradient(135deg, #003d4d 0%, #001a3d 100%); }
-.cover-2  { background: linear-gradient(135deg, #2d1b4e 0%, #0d1220 100%); }
-.cover-3  { background: linear-gradient(135deg, #003d1e 0%, #001a0e 100%); }
-.cover-4  { background: linear-gradient(135deg, #3d2b00 0%, #1a1000 100%); }
-.cover-5  { background: linear-gradient(135deg, #1a0033 0%, #080015 100%); }
-.cover-6  { background: linear-gradient(135deg, #002244 0%, #001122 100%); }
-.cover-7  { background: linear-gradient(135deg, #2b1a00 0%, #150a00 100%); }
-.cover-8  { background: linear-gradient(135deg, #001f3d 0%, #000d1a 100%); }
-.cover-9  { background: linear-gradient(135deg, #0d2d00 0%, #060d00 100%); }
-.cover-10 { background: linear-gradient(135deg, #1f0040 0%, #0a001a 100%); }
-.cover-11 { background: linear-gradient(135deg, #003030 0%, #001515 100%); }
+/* ── Scanline overlay ──────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.025) 0px,
+    rgba(0,0,0,0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
 
-/* ── GitHub card accent ────────────────── */
-.gh-accent-cpp    { border-top: 2px solid #f34b7d; }
-.gh-accent-ts     { border-top: 2px solid #3178c6; }
-.gh-accent-js     { border-top: 2px solid #f1e05a; }
-.gh-accent-ps     { border-top: 2px solid #012456; }
-.gh-accent-shell  { border-top: 2px solid #89e051; }
-.gh-accent-java   { border-top: 2px solid #b07219; }
-.gh-accent-css    { border-top: 2px solid #563d7c; }
-.gh-accent-other  { border-top: 2px solid #6e7681; }
+/* ── Heading font ──────────────────────── */
+h1, h2, h3 {
+  font-family: 'Orbitron', 'JetBrains Mono', monospace;
+}
+
+/* ── Cover gradients (military) ─────────── */
+.cover-1  { background: linear-gradient(135deg, #1a2010 0%, #0a0d06 100%); }
+.cover-2  { background: linear-gradient(135deg, #1e1810 0%, #0d0b08 100%); }
+.cover-3  { background: linear-gradient(135deg, #162010 0%, #090d06 100%); }
+.cover-4  { background: linear-gradient(135deg, #201808 0%, #100c04 100%); }
+.cover-5  { background: linear-gradient(135deg, #181020 0%, #0c0810 100%); }
+.cover-6  { background: linear-gradient(135deg, #10182a 0%, #080d14 100%); }
+.cover-7  { background: linear-gradient(135deg, #201a0a 0%, #100e06 100%); }
+.cover-8  { background: linear-gradient(135deg, #0e1c28 0%, #060e14 100%); }
+.cover-9  { background: linear-gradient(135deg, #0e1e10 0%, #060e08 100%); }
+.cover-10 { background: linear-gradient(135deg, #1a0e20 0%, #0d080e 100%); }
+.cover-11 { background: linear-gradient(135deg, #101e18 0%, #080e0c 100%); }
+
+/* ── GitHub language dots ─────────────── */
+.gh-accent-cpp   { border-top: 2px solid #8a4050; }
+.gh-accent-ts    { border-top: 2px solid #3d6090; }
+.gh-accent-js    { border-top: 2px solid #8a7a30; }
+.gh-accent-ps    { border-top: 2px solid #304858; }
+.gh-accent-shell { border-top: 2px solid #4a6a28; }
+.gh-accent-java  { border-top: 2px solid #8a5820; }
+.gh-accent-css   { border-top: 2px solid #503868; }
+.gh-accent-other { border-top: 2px solid #484838; }
+
+/* ── Terminal blink cursor ─────────────── */
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.blink { animation: blink 1s step-end infinite; }
+
+/* ── Glitch text effect on hover ─────── */
+@keyframes glitch1 {
+  0%,100% { clip-path: inset(0 0 100% 0); }
+  25%     { clip-path: inset(20% 0 50% 0); transform: translateX(-2px); }
+  50%     { clip-path: inset(60% 0 10% 0); transform: translateX(2px); }
+  75%     { clip-path: inset(40% 0 30% 0); }
+}

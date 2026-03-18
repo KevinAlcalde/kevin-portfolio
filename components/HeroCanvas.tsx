@@ -76,28 +76,29 @@ void main() {
 
   float f = fbm(uv + 4.0 * r + t * 0.05);
 
-  // ── Dark palette ─────────────────────────────────
+  // ── Military dark palette ────────────────────────
+  // Base: near-black with olive-khaki undertone
   vec3 col = mix(
-    vec3(0.004, 0.004, 0.008),   // near-black
-    vec3(0.010, 0.016, 0.032),   // very dark blue
+    vec3(0.030, 0.032, 0.028),   // tactical black (slight olive)
+    vec3(0.048, 0.052, 0.030),   // dark olive
     clamp(f * 2.0, 0.0, 1.0)
   );
   col = mix(col,
-    vec3(0.018, 0.030, 0.060),
+    vec3(0.065, 0.075, 0.035),   // army green mid
     clamp(f * f * 5.0, 0.0, 1.0)
   );
   col = mix(col,
-    vec3(0.030, 0.050, 0.100),
+    vec3(0.085, 0.095, 0.042),   // olive highlight
     clamp(pow(f, 4.0) * 9.0, 0.0, 1.0)
   );
 
-  // Subtle cyan wisps
+  // Khaki/gold wisps at detail areas
   float wisps = vnoise(uv * 4.5 + t * 0.4 + r.x * 2.0);
-  col += vec3(0.0, 0.020, 0.038) * pow(clamp(wisps, 0.0, 1.0), 3.0) * 1.8;
+  col += vec3(0.030, 0.026, 0.006) * pow(clamp(wisps, 0.0, 1.0), 3.0) * 1.6;
 
-  // Purple undertones at warp peaks
+  // Field brown undertones at warp peaks
   float peaks = clamp((f - 0.55) * 5.0, 0.0, 1.0);
-  col += vec3(0.015, 0.005, 0.030) * peaks;
+  col += vec3(0.025, 0.018, 0.008) * peaks;
 
   // Vignette
   float vig = 1.0 - 0.55 * dot(uv - 0.5, uv - 0.5) * 2.8;

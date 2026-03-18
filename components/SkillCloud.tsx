@@ -3,36 +3,30 @@
 import { useEffect, useRef } from 'react';
 
 const SKILLS = [
-  { label: 'React', color: '#61dafb' },
-  { label: 'Next.js', color: '#ffffff' },
-  { label: 'Three.js', color: '#06b6d4' },
-  { label: 'TypeScript', color: '#3178c6' },
-  { label: 'Node.js', color: '#68a063' },
-  { label: 'Python', color: '#ffd43b' },
-  { label: 'Solidity', color: '#a855f7' },
-  { label: 'Blockchain', color: '#f7931a' },
-  { label: 'Web3', color: '#e040fb' },
-  { label: 'IoT', color: '#10b981' },
-  { label: 'SQL', color: '#4479a1' },
-  { label: 'C++', color: '#00599c' },
-  { label: 'Java', color: '#ed8b00' },
-  { label: 'Docker', color: '#2496ed' },
-  { label: 'AWS', color: '#ff9900' },
-  { label: 'N8N', color: '#ea4b71' },
-  { label: 'Arduino', color: '#00979d' },
-  { label: 'Hardhat', color: '#f7e557' },
-  { label: 'AutoCAD', color: '#e51837' },
-  { label: 'Rhinoceros', color: '#808080' },
-  { label: 'WebGL', color: '#06b6d4' },
-  { label: 'Git', color: '#f05032' },
-  { label: 'CISCO', color: '#1ba0d7' },
+  { label: 'React',       color: '#7a9640' },
+  { label: 'Next.js',     color: '#c8c4a0' },
+  { label: 'Three.js',    color: '#8aaa4a' },
+  { label: 'TypeScript',  color: '#6a8090' },
+  { label: 'Node.js',     color: '#6a8050' },
+  { label: 'Python',      color: '#b8a840' },
+  { label: 'Solidity',    color: '#9a7c30' },
+  { label: 'Blockchain',  color: '#b89030' },
+  { label: 'Web3',        color: '#9060a0' },
+  { label: 'IoT',         color: '#5a8a4a' },
+  { label: 'SQL',         color: '#607888' },
+  { label: 'C++',         color: '#8a5060' },
+  { label: 'Java',        color: '#a06828' },
+  { label: 'Docker',      color: '#5880a0' },
+  { label: 'AWS',         color: '#b07830' },
+  { label: 'N8N',         color: '#a06048' },
+  { label: 'Arduino',     color: '#4a8878' },
+  { label: 'Hardhat',     color: '#a8a030' },
+  { label: 'AutoCAD',     color: '#9a3838' },
+  { label: 'Rhinoceros',  color: '#787868' },
+  { label: 'WebGL',       color: '#7a9640' },
+  { label: 'Git',         color: '#9a5830' },
+  { label: 'GLSL',        color: '#5a8870' },
 ];
-
-interface Position {
-  x: number;
-  y: number;
-  z: number;
-}
 
 export default function SkillCloud() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,12 +35,11 @@ export default function SkillCloud() {
     const container = containerRef.current;
     if (!container) return;
 
-    const RADIUS = 160;
+    const RADIUS = 155;
     const N = SKILLS.length;
 
-    // Distribute on sphere using Fibonacci lattice
-    const positions: Position[] = SKILLS.map((_, i) => {
-      const phi = Math.acos(1 - (2 * (i + 0.5)) / N);
+    const positions = SKILLS.map((_, i) => {
+      const phi   = Math.acos(1 - (2 * (i + 0.5)) / N);
       const theta = Math.PI * (1 + Math.sqrt(5)) * i;
       return {
         x: RADIUS * Math.sin(phi) * Math.cos(theta),
@@ -55,55 +48,48 @@ export default function SkillCloud() {
       };
     });
 
-    // Create span elements
     const spans: HTMLSpanElement[] = [];
     SKILLS.forEach((skill, i) => {
       const span = document.createElement('span');
       span.textContent = skill.label;
-      span.style.color = skill.color;
       span.style.position = 'absolute';
       span.style.left = '50%';
       span.style.top = '50%';
-      span.style.transform = 'translate(-50%, -50%)';
-      span.style.fontSize = '13px';
+      span.style.fontFamily = 'JetBrains Mono, monospace';
+      span.style.fontSize = '11px';
       span.style.fontWeight = '600';
+      span.style.letterSpacing = '0.08em';
+      span.style.color = skill.color;
       span.style.cursor = 'default';
       span.style.userSelect = 'none';
-      span.style.fontFamily = 'Inter, sans-serif';
-      span.style.letterSpacing = '0.5px';
-      span.style.textShadow = `0 0 8px ${skill.color}66`;
-      span.style.transition = 'font-size 0.3s ease, text-shadow 0.3s ease';
+      span.style.textShadow = `0 0 6px ${skill.color}44`;
+      span.style.transition = 'font-size 0.3s, text-shadow 0.3s';
       span.style.whiteSpace = 'nowrap';
       container.appendChild(span);
       spans.push(span);
 
       span.addEventListener('mouseenter', () => {
-        span.style.fontSize = '15px';
-        span.style.textShadow = `0 0 16px ${skill.color}, 0 0 30px ${skill.color}88`;
+        span.style.fontSize = '13px';
+        span.style.textShadow = `0 0 12px ${skill.color}, 0 0 24px ${skill.color}66`;
       });
       span.addEventListener('mouseleave', () => {
-        span.style.fontSize = '13px';
-        span.style.textShadow = `0 0 8px ${skill.color}66`;
+        span.style.fontSize = '11px';
+        span.style.textShadow = `0 0 6px ${skill.color}44`;
       });
     });
 
-    let angleX = 0.0015;
-    let angleY = 0.003;
+    let angleY = 0.002;
+    let angleX = 0.0008;
     let raf: number;
 
-    // Mouse drag
-    let dragging = false;
-    let lastX = 0, lastY = 0;
-    const onDown = (e: MouseEvent) => { dragging = true; lastX = e.clientX; lastY = e.clientY; };
-    const onUp = () => { dragging = false; };
-    const onMove = (e: MouseEvent) => {
+    let dragging = false, lx = 0, ly = 0;
+    const onDown  = (e: MouseEvent) => { dragging = true; lx = e.clientX; ly = e.clientY; };
+    const onUp    = () => { dragging = false; };
+    const onMove  = (e: MouseEvent) => {
       if (!dragging) return;
-      const dx = e.clientX - lastX;
-      const dy = e.clientY - lastY;
-      angleY = dx * 0.0004;
-      angleX = dy * 0.0004;
-      lastX = e.clientX;
-      lastY = e.clientY;
+      angleY = (e.clientX - lx) * 0.0003;
+      angleX = (e.clientY - ly) * 0.0003;
+      lx = e.clientX; ly = e.clientY;
     };
 
     container.addEventListener('mousedown', onDown);
@@ -122,20 +108,14 @@ export default function SkillCloud() {
 
       spans.forEach((span, i) => {
         const { x, y, z } = positions[i];
-
-        // Rotate Y
-        const rx = x * cosY - z * sinY;
-        const rz = x * sinY + z * cosY;
-
-        // Rotate X
-        const ry = y * cosX - rz * sinX;
+        const rx  = x * cosY - z * sinY;
+        const rz  = x * sinY + z * cosY;
+        const ry  = y * cosX - rz * sinX;
         const rz2 = y * sinX + rz * cosX;
-
         const scale = (rz2 + RADIUS * 2) / (RADIUS * 3);
-
         span.style.transform = `translate(calc(-50% + ${rx}px), calc(-50% + ${ry}px))`;
-        span.style.opacity = (scale * 0.9 + 0.1).toString();
-        span.style.zIndex = Math.floor(scale * 100).toString();
+        span.style.opacity   = (scale * 0.85 + 0.1).toString();
+        span.style.zIndex    = Math.floor(scale * 100).toString();
       });
     };
 
@@ -154,7 +134,7 @@ export default function SkillCloud() {
     <div
       ref={containerRef}
       className="relative"
-      style={{ width: 380, height: 380, cursor: 'grab' }}
+      style={{ width: 360, height: 360, cursor: 'grab' }}
       title="Drag to rotate"
     />
   );
