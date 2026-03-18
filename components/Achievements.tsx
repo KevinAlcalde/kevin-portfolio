@@ -1,149 +1,134 @@
 'use client';
 
-const achievements = [
+const featured = [
   {
     icon: '🚀',
-    title: '2do Lugar NASA Space Apps',
-    subtitle: 'Hackathon NASA 2019',
-    desc: 'Proyecto SIGNAL.GK con el equipo "Avengers of Earth". 2do puesto a nivel provincial en la NASA Space Apps Challenge.',
-    color: 'border-blue-400/40',
-    glow: 'hover:shadow-blue-500/20',
-    tag: '2019',
+    title: '2do Lugar · NASA Space Apps',
+    sub: 'Hackathon NASA 2019 · Provincial ARG',
+    desc: 'Proyecto SIGNAL.GK · Equipo "Avengers of Earth". Análisis de señales satelitales para monitoreo ambiental.',
+    c: '#3b82f6',
+    year: '2019',
+  },
+  {
+    icon: '🇺🇸',
+    title: 'YLAI Fellow 2024',
+    sub: 'Young Leaders of the Americas · US Dept. of State',
+    desc: 'Seleccionado por el Departamento de Estado de EE.UU. para el programa de liderazgo joven de las Américas.',
+    c: '#00cfff',
+    year: '2024',
   },
   {
     icon: '👑',
-    title: 'Presidente JCI Mendoza',
-    subtitle: 'Cámara Junior Internacional',
-    desc: 'Lideré la organización local de JCI Mendoza en 2023. Director de Proyecto Eco 2020/21, Vicepresidente 2022.',
-    color: 'border-cyan-400/40',
-    glow: 'hover:shadow-cyan-500/20',
-    tag: '2020–2023',
+    title: 'Presidente · JCI Mendoza',
+    sub: 'Cámara Junior Internacional',
+    desc: 'Dir. Eco 2020/21 → Vicepresidente 2022 → Presidente 2023. Máximo cargo de la organización local.',
+    c: '#7b5af0',
+    year: '2023',
   },
   {
     icon: '🏛️',
-    title: 'Mención Legislatura de Mendoza',
-    subtitle: 'Innovación Sustentable',
-    desc: 'Mención especial en el rubro Innovación Sustentable otorgada por la Legislatura de Mendoza, programa Jóvenes Protagonistas.',
-    color: 'border-purple-400/40',
-    glow: 'hover:shadow-purple-500/20',
-    tag: '2019',
-  },
-  {
-    icon: '🥇',
-    title: '1er Puesto Feria de Proyectos',
-    subtitle: 'Maipú Joven',
-    desc: 'Primer puesto en feria de proyectos organizada por Maipú Joven. Reconocimiento a la innovación y emprendimiento juvenil.',
-    color: 'border-amber-400/40',
-    glow: 'hover:shadow-amber-500/20',
-    tag: '2016',
-  },
-  {
-    icon: '🔭',
-    title: 'CHANGER CAMP 2019',
-    subtitle: 'Seleccionado nacional',
-    desc: 'Seleccionado para participar del CHANGER CAMP 2019, programa de innovación y liderazgo para jóvenes changemakers.',
-    color: 'border-emerald-400/40',
-    glow: 'hover:shadow-emerald-500/20',
-    tag: '2019',
+    title: 'Mención Legislatura Mendoza',
+    sub: 'Innovación Sustentable · Jóvenes Protagonistas',
+    desc: 'Mención especial en rubro Innovación Sustentable. Reconocimiento provincial por impacto social.',
+    c: '#00e5a0',
+    year: '2019',
   },
   {
     icon: '🌍',
     title: 'Young Influencers Argentina',
-    subtitle: 'Instituto Goethe',
-    desc: 'Seleccionado en YOUNG INFLUENCERS ARGENTINA del Goethe Institut para campañas sobre cambio climático y medio ambiente.',
-    color: 'border-green-400/40',
-    glow: 'hover:shadow-green-500/20',
-    tag: '2022',
+    sub: 'Instituto Goethe · Cambio Climático',
+    desc: 'Seleccionado para campañas sobre cambio climático y medio ambiente en el programa Goethe Institut.',
+    c: '#34d399',
+    year: '2022',
+  },
+  {
+    icon: '🥇',
+    title: '1er Puesto · Maipú Joven',
+    sub: 'Feria de Proyectos',
+    desc: 'Primer puesto en feria de proyectos juveniles de Maipú. Innovación y emprendimiento temprano.',
+    c: '#f59e0b',
+    year: '2016',
+  },
+  {
+    icon: '🔭',
+    title: 'CHANGER CAMP 2019',
+    sub: 'Programa de Liderazgo e Innovación',
+    desc: 'Seleccionado para participar del CHANGER CAMP — espacio de changemakers y líderes jóvenes.',
+    c: '#ec4899',
+    year: '2019',
   },
   {
     icon: '🔬',
-    title: 'Becario ReLIoT — UTN',
-    subtitle: 'Laboratorio I+D',
-    desc: 'Beca de investigación en el laboratorio ReLIoT (Reinforcement Learning for IoT) de la Universidad Tecnológica Nacional.',
-    color: 'border-violet-400/40',
-    glow: 'hover:shadow-violet-500/20',
-    tag: '2021',
-  },
-  {
-    icon: '📜',
-    title: 'Tecnológico de Monterrey',
-    subtitle: 'Planificación de Proyectos',
-    desc: 'Curso sobre Planificación y ejecución de proyectos otorgado por el reconocido Tecnológico de Monterrey (México).',
-    color: 'border-red-400/40',
-    glow: 'hover:shadow-red-500/20',
-    tag: 'Certificación',
+    title: 'Becario ReLIoT · UTN',
+    sub: 'Laboratorio I+D · Investigación',
+    desc: 'Beca en el lab de Reinforcement Learning for IoT (ReLIoT) de la Universidad Tecnológica Nacional.',
+    c: '#60a5fa',
+    year: '2021',
   },
 ];
 
 const courses = [
-  'Diplomatura IoT — UTN',
-  'Energía Solar Fotovoltaica — UTN',
-  'Ciberseguridad — CISCO',
-  'Plan 111mil (Ministerio de Educación)',
+  'Diplomatura IoT · UTN',
+  'Energía Solar Fotovoltaica · UTN',
+  'Blockchain Bootcamp · Chainlink/ETH Kipu',
+  'Ciberseguridad · CISCO',
+  'PLAN 111MIL · Min. de Educación',
+  'Java Intermedio · CISCO Oracle Academy',
+  'CNC Mecanizado 120hs · Fundación YPF',
   'Modelado 3D Rhinoceros & Keyshot',
-  'CNC Mecanizado 120hs — Fundación YPF',
-  'Java Intermedio — CISCO Oracle',
+  'Planificación de Proyectos · Tec. de Monterrey',
+  'Creators Lab 2021',
   'AWS Cloud Practitioner (en curso)',
   'Python (en curso)',
-  'Creators Lab 2021',
-  'PLAN 111MIL',
-  'Blockchain Bootcamp — Chainlink',
+  'HTML / CSS / JS · Junior Achievement',
+  'Hacking Ético · CeReCoN',
 ];
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="py-32 px-6 relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-cyan-500/3 blur-3xl pointer-events-none" />
+    <section id="achievements" className="py-32 px-8 md:px-16 lg:px-24 relative">
+      <div className="absolute bottom-0 left-1/2 w-[600px] h-[300px] -translate-x-1/2 bg-[var(--accent)] opacity-[0.03] blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="reveal flex items-center gap-4 mb-4">
-          <span className="font-mono text-cyan-400 text-sm">05.</span>
-          <span className="font-mono text-slate-500 text-sm">achievements & certs</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/30 to-transparent" />
+      <div className="max-w-screen-xl mx-auto">
+        <div className="reveal flex items-center gap-5 mb-3">
+          <span className="section-label text-[var(--accent)]">06</span>
+          <div className="h-line flex-1 max-w-xs" />
         </div>
-        <h2 className="reveal text-4xl md:text-5xl font-black text-white mb-4">
-          Logros & <span className="gradient-text">Reconocimientos</span>
+        <h2 className="reveal font-black text-white mb-16"
+          style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: 1 }}>
+          Logros
         </h2>
-        <p className="reveal text-slate-400 mb-16 max-w-xl">
-          Distinciones, competencias y certificaciones que marcan mi trayectoria.
-        </p>
 
-        {/* Achievement cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
-          {achievements.map((a, i) => (
+        {/* Featured grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--line)] mb-20">
+          {featured.map((a, i) => (
             <div
               key={a.title}
-              className={`reveal glass-card p-5 border ${a.color} hover:shadow-xl ${a.glow} transition-all duration-300 group`}
-              style={{ transitionDelay: `${i * 50}ms` }}
+              className="reveal bg-[var(--bg)] p-5 group hover:bg-[var(--bg3)] transition-colors"
+              style={{ transitionDelay: `${i * 40}ms` }}
             >
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-3xl group-hover:scale-110 transition-transform duration-300">
+              <div className="flex items-start justify-between mb-4">
+                <span className="text-2xl group-hover:scale-110 transition-transform duration-300 block">
                   {a.icon}
                 </span>
-                <span className="text-xs font-mono text-slate-500 bg-white/5 px-2 py-0.5 rounded">
-                  {a.tag}
-                </span>
+                <span className="mono-badge">{a.year}</span>
               </div>
-              <h3 className="text-white font-bold text-sm mb-0.5 leading-tight">{a.title}</h3>
-              <p className="text-cyan-400 text-xs font-medium mb-2">{a.subtitle}</p>
-              <p className="text-slate-400 text-xs leading-relaxed">{a.desc}</p>
+              <h3 className="text-[var(--text)] font-bold text-sm leading-tight mb-1">{a.title}</h3>
+              <p className="text-xs font-medium mb-3" style={{ color: a.c }}>{a.sub}</p>
+              <p className="text-[var(--muted)] text-xs leading-relaxed">{a.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Courses strip */}
         <div className="reveal">
-          <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3">
-            <span className="text-cyan-400 font-mono text-sm">📚</span>
-            Cursos & Certificaciones adicionales
-            <div className="flex-1 h-px bg-white/5" />
-          </h3>
-          <div className="flex flex-wrap gap-3">
+          <h3 className="section-label text-[var(--accent)] mb-6">Cursos & Certificaciones</h3>
+          <div className="flex flex-wrap gap-2">
             {courses.map((c) => (
               <span
                 key={c}
-                className="skill-tag text-slate-300 border-slate-700/50 bg-white/3 hover:text-cyan-300"
+                className="text-[0.72rem] px-3 py-1.5 bg-[rgba(255,255,255,0.03)] border border-[var(--line)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[rgba(255,255,255,0.1)] transition-all"
+                style={{ borderRadius: '2px' }}
               >
                 {c}
               </span>

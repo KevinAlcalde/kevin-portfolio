@@ -1,7 +1,111 @@
 'use client';
 
+/**
+ * Full-screen WebGL fragment shader — FBM domain-warping (Inigo Quilez technique).
+ * Creates a dark, flowing mathematical landscape as the site background.
+ * Very much in the spirit of acko.net's visual philosophy.
+ */
+
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+
+const VERT = /* glsl */ `
+void main() {
+  gl_Position = vec4(position.xy, 0.0, 1.0);
+}
+`;
+
+const FRAG = /* glsl */ `
+precision highp float;
+
+uniform float uTime;
+uniform vec2  uResolution;
+uniform vec2  uMouse;
+
+// ── Value noise ──────────────────────────────────
+float hash(vec2 p) {
+  p = fract(p * vec2(127.1, 311.7));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+
+float vnoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float a = hash(i);
+  float b = hash(i + vec2(1.0, 0.0));
+  float c = hash(i + vec2(0.0, 1.0));
+  float d = hash(i + vec2(1.0, 1.0));
+  return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
+}
+
+// ── Fractal Brownian Motion ──────────────────────
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  mat2 rot = mat2(1.6, 1.2, -1.2, 1.6);
+  for (int i = 0; i < 7; i++) {
+    v += a * vnoise(p);
+    p  = rot * p;
+    a *= 0.5;
+  }
+  return v;
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / uResolution;
+  float t  = uTime * 0.08;
+
+  // Subtle mouse influence
+  vec2 mouse = uMouse / uResolution;
+  vec2 toM   = uv - mouse;
+  float mDist = length(toM);
+  uv += (toM / (mDist + 0.4)) * 0.012;
+
+  // ── Domain-warped FBM (Quilez 2003) ──────────────
+  vec2 q = vec2(
+    fbm(uv + t * 0.5),
+    fbm(uv + vec2(5.2, 1.3))
+  );
+
+  vec2 r = vec2(
+    fbm(uv + 4.0 * q + vec2(1.7 + t * 0.15, 9.2)),
+    fbm(uv + 4.0 * q + vec2(8.3 + t * 0.13,  2.8))
+  );
+
+  float f = fbm(uv + 4.0 * r + t * 0.05);
+
+  // ── Dark palette ─────────────────────────────────
+  vec3 col = mix(
+    vec3(0.004, 0.004, 0.008),   // near-black
+    vec3(0.010, 0.016, 0.032),   // very dark blue
+    clamp(f * 2.0, 0.0, 1.0)
+  );
+  col = mix(col,
+    vec3(0.018, 0.030, 0.060),
+    clamp(f * f * 5.0, 0.0, 1.0)
+  );
+  col = mix(col,
+    vec3(0.030, 0.050, 0.100),
+    clamp(pow(f, 4.0) * 9.0, 0.0, 1.0)
+  );
+
+  // Subtle cyan wisps
+  float wisps = vnoise(uv * 4.5 + t * 0.4 + r.x * 2.0);
+  col += vec3(0.0, 0.020, 0.038) * pow(clamp(wisps, 0.0, 1.0), 3.0) * 1.8;
+
+  // Purple undertones at warp peaks
+  float peaks = clamp((f - 0.55) * 5.0, 0.0, 1.0);
+  col += vec3(0.015, 0.005, 0.030) * peaks;
+
+  // Vignette
+  float vig = 1.0 - 0.55 * dot(uv - 0.5, uv - 0.5) * 2.8;
+  col *= clamp(vig, 0.0, 1.0);
+
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
 
 export default function HeroCanvas() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -13,170 +117,53 @@ export default function HeroCanvas() {
     const W = mount.clientWidth;
     const H = mount.clientHeight;
 
-    // ── Renderer ──────────────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    // ── Renderer ───────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // cap for perf
     renderer.setSize(W, H);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
-    // ── Scene & Camera ────────────────────────────────────────────────
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(70, W / H, 0.1, 1000);
-    camera.position.z = 35;
-
-    // ── Particles (neural network nodes) ─────────────────────────────
-    const COUNT = 120;
-    const posArr = new Float32Array(COUNT * 3);
-    const vel: { x: number; y: number }[] = [];
-
-    for (let i = 0; i < COUNT; i++) {
-      posArr[i * 3] = (Math.random() - 0.5) * 60;
-      posArr[i * 3 + 1] = (Math.random() - 0.5) * 35;
-      posArr[i * 3 + 2] = (Math.random() - 0.5) * 15;
-      vel.push({
-        x: (Math.random() - 0.5) * 0.018,
-        y: (Math.random() - 0.5) * 0.012,
-      });
-    }
-
-    const ptGeo = new THREE.BufferGeometry();
-    ptGeo.setAttribute('position', new THREE.BufferAttribute(posArr.slice(), 3));
-
-    const ptMat = new THREE.PointsMaterial({
-      color: 0x06b6d4,
-      size: 0.22,
-      transparent: true,
-      opacity: 0.85,
+    // ── Orthographic full-screen setup ────────────
+    const scene  = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const geo    = new THREE.PlaneGeometry(2, 2);
+    const mat    = new THREE.ShaderMaterial({
+      vertexShader:   VERT,
+      fragmentShader: FRAG,
+      uniforms: {
+        uTime:       { value: 0 },
+        uResolution: { value: new THREE.Vector2(W, H) },
+        uMouse:      { value: new THREE.Vector2(W / 2, H / 2) },
+      },
+      depthWrite: false,
+      depthTest:  false,
     });
-    const points = new THREE.Points(ptGeo, ptMat);
-    scene.add(points);
+    scene.add(new THREE.Mesh(geo, mat));
 
-    // ── Connection lines ──────────────────────────────────────────────
-    const MAX_LINES = COUNT * COUNT;
-    const linePos = new Float32Array(MAX_LINES * 6);
-    const lineGeo = new THREE.BufferGeometry();
-    lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
-    lineGeo.setDrawRange(0, 0);
-
-    const lineMat = new THREE.LineBasicMaterial({
-      color: 0x06b6d4,
-      transparent: true,
-      opacity: 0.18,
-    });
-    const lines = new THREE.LineSegments(lineGeo, lineMat);
-    scene.add(lines);
-
-    // ── Floating wireframe geometries ─────────────────────────────────
-    // Torus (top-right)
-    const torus = new THREE.Mesh(
-      new THREE.TorusGeometry(6, 0.6, 8, 60),
-      new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.25 })
-    );
-    torus.position.set(18, 8, -8);
-    scene.add(torus);
-
-    // Octahedron (bottom-left)
-    const octa = new THREE.Mesh(
-      new THREE.OctahedronGeometry(4, 0),
-      new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.3 })
-    );
-    octa.position.set(-20, -10, -5);
-    scene.add(octa);
-
-    // Icosahedron (floating center-left)
-    const ico = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.5, 1),
-      new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.35 })
-    );
-    ico.position.set(-10, 6, 5);
-    scene.add(ico);
-
-    // Small torus knot (center-right)
-    const knot = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(2.5, 0.5, 80, 10),
-      new THREE.MeshBasicMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.2 })
-    );
-    knot.position.set(12, -8, -3);
-    scene.add(knot);
-
-    // ── Mouse parallax ────────────────────────────────────────────────
-    const mouse = { x: 0, y: 0 };
+    // ── Mouse ──────────────────────────────────────
     const onMouseMove = (e: MouseEvent) => {
-      mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+      mat.uniforms.uMouse.value.set(e.clientX, H - e.clientY);
     };
     window.addEventListener('mousemove', onMouseMove);
 
-    // ── Animation loop ────────────────────────────────────────────────
-    let raf: number;
-    const MAX_DIST = 14;
-    const currentPos = posArr.slice();
-
-    const animate = () => {
-      raf = requestAnimationFrame(animate);
-
-      // Move particles
-      for (let i = 0; i < COUNT; i++) {
-        currentPos[i * 3] += vel[i].x;
-        currentPos[i * 3 + 1] += vel[i].y;
-        if (Math.abs(currentPos[i * 3]) > 30) vel[i].x *= -1;
-        if (Math.abs(currentPos[i * 3 + 1]) > 18) vel[i].y *= -1;
-      }
-      (ptGeo.attributes.position as THREE.BufferAttribute).array.set(currentPos);
-      ptGeo.attributes.position.needsUpdate = true;
-
-      // Update connection lines
-      let idx = 0;
-      for (let i = 0; i < COUNT; i++) {
-        for (let j = i + 1; j < COUNT; j++) {
-          const dx = currentPos[i * 3] - currentPos[j * 3];
-          const dy = currentPos[i * 3 + 1] - currentPos[j * 3 + 1];
-          const dz = currentPos[i * 3 + 2] - currentPos[j * 3 + 2];
-          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-          if (dist < MAX_DIST) {
-            linePos[idx++] = currentPos[i * 3];
-            linePos[idx++] = currentPos[i * 3 + 1];
-            linePos[idx++] = currentPos[i * 3 + 2];
-            linePos[idx++] = currentPos[j * 3];
-            linePos[idx++] = currentPos[j * 3 + 1];
-            linePos[idx++] = currentPos[j * 3 + 2];
-          }
-        }
-      }
-      lineGeo.setDrawRange(0, idx / 3);
-      (lineGeo.attributes.position as THREE.BufferAttribute).array.set(linePos);
-      lineGeo.attributes.position.needsUpdate = true;
-
-      // Rotate geometries
-      torus.rotation.x += 0.004;
-      torus.rotation.y += 0.003;
-      octa.rotation.x += 0.005;
-      octa.rotation.y += 0.007;
-      ico.rotation.y += 0.008;
-      ico.rotation.z += 0.003;
-      knot.rotation.x += 0.006;
-      knot.rotation.y += 0.004;
-
-      // Camera parallax
-      camera.position.x += (mouse.x * 4 - camera.position.x) * 0.04;
-      camera.position.y += (mouse.y * 2.5 - camera.position.y) * 0.04;
-      camera.lookAt(scene.position);
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    // ── Resize handler ────────────────────────────────────────────────
+    // ── Resize ─────────────────────────────────────
     const onResize = () => {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      mat.uniforms.uResolution.value.set(w, h);
     };
     window.addEventListener('resize', onResize);
+
+    // ── Loop ───────────────────────────────────────
+    let raf: number;
+    const clock = new THREE.Clock();
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      mat.uniforms.uTime.value = clock.getElapsedTime();
+      renderer.render(scene, camera);
+    };
+    tick();
 
     return () => {
       cancelAnimationFrame(raf);
@@ -184,6 +171,8 @@ export default function HeroCanvas() {
       window.removeEventListener('resize', onResize);
       if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
       renderer.dispose();
+      mat.dispose();
+      geo.dispose();
     };
   }, []);
 

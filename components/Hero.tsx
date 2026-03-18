@@ -7,11 +7,11 @@ const HeroCanvas = dynamic(() => import('./HeroCanvas'), { ssr: false });
 
 const roles = [
   'Electronics Engineer',
-  'Full-Stack Developer',
   'Blockchain Developer',
-  'IoT Specialist',
-  'Serial Entrepreneur',
-  'Tech Innovator',
+  'IoT Architect',
+  'Startup Founder',
+  'Full-Stack Dev',
+  'AI & Data Science',
 ];
 
 export default function Hero() {
@@ -21,118 +21,126 @@ export default function Hero() {
 
   useEffect(() => {
     const role = roles[roleIdx];
-    let timeout: ReturnType<typeof setTimeout>;
-
+    let t: ReturnType<typeof setTimeout>;
     if (!deleting && displayed.length < role.length) {
-      timeout = setTimeout(() => setDisplayed(role.slice(0, displayed.length + 1)), 60);
+      t = setTimeout(() => setDisplayed(role.slice(0, displayed.length + 1)), 55);
     } else if (!deleting && displayed.length === role.length) {
-      timeout = setTimeout(() => setDeleting(true), 2200);
+      t = setTimeout(() => setDeleting(true), 2500);
     } else if (deleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35);
-    } else if (deleting && displayed.length === 0) {
+      t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 30);
+    } else {
       setDeleting(false);
       setRoleIdx((i) => (i + 1) % roles.length);
     }
-
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(t);
   }, [displayed, deleting, roleIdx]);
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
-      {/* Three.js background */}
+    <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+      {/* FBM WebGL shader */}
       <HeroCanvas />
 
-      {/* Radial gradient overlay */}
-      <div className="absolute inset-0 bg-radial-gradient pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6,182,212,0.04) 0%, transparent 70%)'
-      }} />
-
-      {/* Grid overlay */}
+      {/* Very subtle grid — acko.net-like precision */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(6,182,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
+            'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
         }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-sm font-mono mb-8 animate-fadeInUp">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          Disponible para proyectos · Mendoza, Argentina
+      {/* Content — pushed left like acko.net */}
+      <div className="relative z-10 px-8 md:px-16 lg:px-24 max-w-screen-xl mx-auto w-full">
+
+        {/* Status badge */}
+        <div className="flex items-center gap-2 mb-10">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00e5a0] animate-pulse" />
+          <span className="section-label text-[#00e5a0]">Disponible · Mendoza, Argentina</span>
         </div>
 
-        {/* Name */}
-        <h1 className="text-6xl md:text-8xl font-black mb-4 tracking-tight leading-none" style={{animationDelay: '0.2s'}}>
-          <span className="block text-white">Kevin</span>
-          <span className="block gradient-text">Alcalde</span>
+        {/* Name — massive acko.net-style */}
+        <h1
+          className="font-black leading-[0.88] tracking-tight text-white mb-8 select-none"
+          style={{ fontSize: 'clamp(4.5rem, 13vw, 12rem)' }}
+        >
+          Kevin<br />
+          <span className="g-text">Alcalde</span>
         </h1>
 
         {/* Typewriter role */}
-        <div className="h-12 flex items-center justify-center mb-6">
-          <p className="text-xl md:text-2xl font-mono text-slate-300">
-            <span className="text-cyan-400">{'<'}</span>
-            <span className="text-slate-200 font-semibold">{displayed}</span>
-            <span className="text-cyan-400 animate-pulse">|</span>
-            <span className="text-cyan-400">{'/>'}</span>
+        <div className="flex items-center gap-3 mb-10">
+          <div
+            className="h-px flex-shrink-0"
+            style={{ width: 'clamp(2rem, 4vw, 4rem)', background: 'rgba(0,207,255,0.5)' }}
+          />
+          <p
+            className="font-mono text-[var(--muted)] tracking-wide"
+            style={{ fontSize: 'clamp(0.85rem, 1.6vw, 1.1rem)' }}
+          >
+            {displayed}
+            <span className="text-[var(--accent)] animate-pulse">_</span>
           </p>
         </div>
 
-        {/* Description */}
-        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          Estudiante de <span className="text-cyan-300 font-medium">Ingeniería Electrónica</span> en UTN Mendoza.
-          Emprendedor en serie con proyectos de <span className="text-purple-400 font-medium">IoT, Blockchain y sostenibilidad</span>.
-          Presidente de JCI Mendoza 2023. 2do lugar NASA Space Apps.
+        {/* Brief pitch */}
+        <p
+          className="text-[var(--muted)] leading-relaxed mb-12 max-w-lg"
+          style={{ fontSize: 'clamp(0.9rem, 1.4vw, 1.05rem)' }}
+        >
+          Ing. Electrónica (UTN) · Ciencia de Datos & IA (Siglo 21).
+          Construyo desde firmware IoT hasta dApps en Ethereum.
+          5 startups, 2do puesto NASA Space Apps, YLAI 2024.
         </p>
 
-        {/* CTA buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+        {/* CTAs */}
+        <div className="flex flex-wrap gap-4 mb-20">
           <a
             href="#projects"
-            className="px-8 py-3 rounded-xl bg-cyan-500 text-[#030712] font-bold text-sm hover:bg-cyan-400 transition-all hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30"
+            className="px-7 py-3 bg-[var(--accent)] text-[#060608] font-bold text-sm tracking-wide hover:bg-white transition-colors"
+            style={{ borderRadius: '2px' }}
           >
             Ver Proyectos
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-xl border border-cyan-500/40 text-cyan-300 font-semibold text-sm hover:bg-cyan-500/10 hover:border-cyan-400 transition-all hover:scale-105"
+            className="px-7 py-3 border border-[rgba(255,255,255,0.12)] text-[var(--muted)] text-sm tracking-wide hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+            style={{ borderRadius: '2px' }}
           >
-            Contactarme
+            Contacto
           </a>
           <a
-            href="mailto:kevinalejandroalcalde@gmail.com"
-            className="px-8 py-3 rounded-xl border border-purple-500/40 text-purple-300 font-semibold text-sm hover:bg-purple-500/10 hover:border-purple-400 transition-all hover:scale-105"
+            href="https://github.com/KevinAlcalde"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-7 py-3 border border-[rgba(255,255,255,0.12)] text-[var(--muted)] text-sm tracking-wide hover:border-white hover:text-white transition-all"
+            style={{ borderRadius: '2px' }}
           >
-            kevinalejandroalcalde@gmail.com
+            GitHub
           </a>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+        {/* Stats row — compact, minimal */}
+        <div className="flex flex-wrap gap-x-10 gap-y-4">
           {[
-            { value: '5+', label: 'Startups fundadas' },
-            { value: '2nd', label: 'NASA Space Apps 2019' },
-            { value: '2023', label: 'Presidente JCI' },
-            { value: '3+', label: 'Idiomas' },
+            { n: '5+',   l: 'startups' },
+            { n: '#2',   l: 'NASA Space Apps 2019' },
+            { n: '2023', l: 'Pdte. JCI Mendoza' },
+            { n: 'YLAI', l: '2024 · US Dept. of State' },
+            { n: '4',    l: 'idiomas' },
           ].map((s) => (
-            <div key={s.label} className="glass-card p-4 text-center">
-              <div className="text-3xl font-black gradient-text-cyan">{s.value}</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">{s.label}</div>
+            <div key={s.l}>
+              <div className="text-white font-black text-xl">{s.n}</div>
+              <div className="section-label mt-0.5">{s.l}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 text-xs">
-        <span className="font-mono">scroll</span>
-        <div className="w-px h-10 bg-gradient-to-b from-cyan-500/50 to-transparent animate-pulse" />
+      <div className="absolute bottom-8 left-8 md:left-16 lg:left-24 flex items-center gap-3">
+        <div className="w-px h-8 bg-[rgba(255,255,255,0.1)] animate-pulse" />
+        <span className="section-label">scroll</span>
       </div>
     </section>
   );

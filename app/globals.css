@@ -3,178 +3,152 @@
 @tailwind utilities;
 
 :root {
-  --bg: #030712;
-  --cyan: #06b6d4;
-  --purple: #8b5cf6;
-  --green: #10b981;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
+  --bg: #060608;
+  --bg2: #0c0c12;
+  --bg3: #111118;
+  --text: #e8e8ec;
+  --muted: #5a5a6e;
+  --accent: #00cfff;
+  --accent2: #7b5af0;
+  --green: #00e5a0;
+  --line: rgba(255,255,255,0.06);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a1a;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--cyan);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--purple);
+/* ── Scrollbar ─────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(0,207,255,0.3); border-radius: 2px; }
+
+/* ── Selection ─────────────────────────── */
+::selection { background: rgba(0,207,255,0.2); color: #fff; }
+
+/* ── Section label ─────────────────────── */
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #06b6d4, #8b5cf6, #10b981);
+/* ── Gradient text ─────────────────────── */
+.g-text {
+  background: linear-gradient(120deg, #00cfff 0%, #7b5af0 60%, #00e5a0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.gradient-text-cyan {
-  background: linear-gradient(90deg, #06b6d4, #22d3ee);
+.g-text-cyan {
+  background: linear-gradient(90deg, #00cfff, #40e0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glassmorphism card */
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+/* ── Card ──────────────────────────────── */
+.card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s;
+}
+.card:hover {
+  background: rgba(0,207,255,0.04);
+  border-color: rgba(0,207,255,0.18);
+  transform: translateY(-3px);
 }
 
-.glass-card:hover {
-  background: rgba(6, 182, 212, 0.06);
-  border-color: rgba(6, 182, 212, 0.3);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(6, 182, 212, 0.1);
-}
-
-/* Neon border */
-.neon-border {
-  border: 1px solid var(--cyan);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3), inset 0 0 10px rgba(6, 182, 212, 0.05);
-}
-
-/* Section animation */
+/* ── Reveal ────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
-
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Skill tag */
-.skill-tag {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  border: 1px solid rgba(6, 182, 212, 0.3);
-  background: rgba(6, 182, 212, 0.08);
-  color: #22d3ee;
-  transition: all 0.3s ease;
-  cursor: default;
-  white-space: nowrap;
-}
-
-.skill-tag:hover {
-  background: rgba(6, 182, 212, 0.2);
-  border-color: #06b6d4;
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
-  transform: scale(1.05);
-}
-
-/* Timeline */
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -1px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(180deg, var(--cyan), var(--purple));
-}
-
-/* Animated underline */
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
+/* ── Divider line ──────────────────────── */
+.h-line {
   height: 1px;
-  background: var(--cyan);
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
+  background: var(--line);
   width: 100%;
 }
 
-/* 3D Tag Cloud */
-#tag-cloud {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  transform-style: preserve-3d;
+/* ── Monospace badge ───────────────────── */
+.mono-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--muted);
 }
 
-#tag-cloud span {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: center center;
-  cursor: default;
-  transition: color 0.3s;
+/* ── Skill pill ────────────────────────── */
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(0,207,255,0.15);
+  background: rgba(0,207,255,0.05);
+  color: rgba(0,207,255,0.8);
+  transition: all 0.2s;
+}
+.pill:hover {
+  background: rgba(0,207,255,0.12);
+  border-color: rgba(0,207,255,0.4);
+  color: #00cfff;
 }
 
-/* Glow effect on hover */
-.glow-cyan {
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
-}
-
-.glow-purple {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-}
-
-/* Cursor glow */
+/* ── Cursor ────────────────────────────── */
 .cursor-glow {
   pointer-events: none;
   position: fixed;
-  width: 400px;
-  height: 400px;
+  width: 500px; height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0,207,255,0.045) 0%, transparent 65%);
   transform: translate(-50%, -50%);
   z-index: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s;
 }
+
+/* ── Project cover gradients ───────────── */
+.cover-1  { background: linear-gradient(135deg, #003d4d 0%, #001a3d 100%); }
+.cover-2  { background: linear-gradient(135deg, #2d1b4e 0%, #0d1220 100%); }
+.cover-3  { background: linear-gradient(135deg, #003d1e 0%, #001a0e 100%); }
+.cover-4  { background: linear-gradient(135deg, #3d2b00 0%, #1a1000 100%); }
+.cover-5  { background: linear-gradient(135deg, #1a0033 0%, #080015 100%); }
+.cover-6  { background: linear-gradient(135deg, #002244 0%, #001122 100%); }
+.cover-7  { background: linear-gradient(135deg, #2b1a00 0%, #150a00 100%); }
+.cover-8  { background: linear-gradient(135deg, #001f3d 0%, #000d1a 100%); }
+.cover-9  { background: linear-gradient(135deg, #0d2d00 0%, #060d00 100%); }
+.cover-10 { background: linear-gradient(135deg, #1f0040 0%, #0a001a 100%); }
+.cover-11 { background: linear-gradient(135deg, #003030 0%, #001515 100%); }
+
+/* ── GitHub card accent ────────────────── */
+.gh-accent-cpp    { border-top: 2px solid #f34b7d; }
+.gh-accent-ts     { border-top: 2px solid #3178c6; }
+.gh-accent-js     { border-top: 2px solid #f1e05a; }
+.gh-accent-ps     { border-top: 2px solid #012456; }
+.gh-accent-shell  { border-top: 2px solid #89e051; }
+.gh-accent-java   { border-top: 2px solid #b07219; }
+.gh-accent-css    { border-top: 2px solid #563d7c; }
+.gh-accent-other  { border-top: 2px solid #6e7681; }

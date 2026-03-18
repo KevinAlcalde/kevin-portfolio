@@ -1,155 +1,143 @@
 'use client';
 
-const experiences = [
+const exps = [
   {
     role: 'Presidente',
-    org: 'JCI Mendoza (Cámara Junior Internacional)',
+    org: 'JCI Mendoza · Cámara Junior Internacional',
     period: '2023',
-    color: 'border-cyan-400',
-    dot: 'bg-cyan-400',
+    c: '#00cfff',
     icon: '👑',
     items: [
-      'Lideré la organización local de JCI Mendoza como presidente electo',
-      'Gestioné proyectos de impacto comunitario y desarrollo de liderazgo',
-      'Coordiné equipos multidisciplinarios para iniciativas de innovación social',
+      'Lideré la organización local como Presidente electo de JCI Mendoza',
+      'Gestioné proyectos de impacto comunitario, liderazgo juvenil e innovación social',
+      'Camino: Director Proyecto Eco (2020/21) → Vicepresidente (2022) → Presidente (2023)',
     ],
   },
   {
-    role: 'Co-Founder & Tech Lead',
-    org: 'CloudFarm',
-    period: '2021 – Presente',
-    color: 'border-emerald-400',
-    dot: 'bg-emerald-400',
-    icon: '🌿',
+    role: 'CEO & Co-Founder',
+    org: 'Biolix',
+    period: '2024 – Presente',
+    c: '#00e5a0',
+    icon: '🧪',
     items: [
-      'Desarrollé sistema IoT para control de hidroponia (temperatura, humedad, microaspersión)',
-      'Implementé arquitectura de monitoreo remoto con Arduino y Node-RED',
-      'Reducción del consumo hídrico del 50–70% respecto a métodos convencionales',
+      'Empresa de desarrollo de bioestimulantes con técnicas hidropónicas',
+      'Fusión de biotecnología agrícola y sistemas de cultivo controlado',
+      'Liderazgo integral: producto, equipo y estrategia de negocio',
     ],
   },
   {
-    role: 'Facilitador de Habilidades Tecnológicas',
+    role: 'Co-Founder',
+    org: 'Apapacho · Startup de cuidado de adultos mayores',
+    period: '2023 – 2024',
+    c: '#ec4899',
+    icon: '❤️',
+    items: [
+      'Co-fundé startup orientada a mejorar la calidad de vida de adultos mayores',
+      'Desarrollé soluciones tecnológicas accesibles para conectividad familiar',
+      'Gestión de producto y roadmap tecnológico',
+    ],
+  },
+  {
+    role: 'Facilitador Tecnológico',
     org: 'Mendoza Futura',
-    period: '2022',
-    color: 'border-purple-400',
-    dot: 'bg-purple-400',
+    period: '2021 – 2024',
+    c: '#7b5af0',
     icon: '🎓',
     items: [
-      'Acompañé a alumnos del programa en el desarrollo de sus emprendimientos tecnológicos',
-      'Impartí talleres de programación, IoT y emprendimiento digital',
-      'Mentoring técnico a equipos de startups en etapa temprana',
+      'Acompañé a equipos de emprendedores en el desarrollo de sus proyectos tecnológicos',
+      'Talleres de programación, IoT, blockchain y emprendimiento digital',
+      'Mentoring técnico a startups en etapas tempranas del programa',
     ],
   },
   {
-    role: 'CIO (Chief Information Officer)',
-    org: 'BIOSPI',
-    period: '2020 – 2021',
-    color: 'border-amber-400',
-    dot: 'bg-amber-400',
+    role: 'CIO · Co-Founder',
+    org: 'BIOSPI · Startup de biotecnología',
+    period: '2021 – 2023',
+    c: '#f59e0b',
     icon: '🧬',
     items: [
-      'Lideré la arquitectura tecnológica e infraestructura IT de la startup',
-      'Definí la estrategia digital y roadmap tecnológico de la empresa',
-      'Gestioné el equipo de desarrollo y la integración de sistemas',
+      'Chief Information Officer: arquitectura IT, estrategia digital y roadmap tecnológico',
+      'Lideré el equipo de desarrollo y la integración de sistemas',
+      'Implementé la infraestructura tecnológica inicial de la startup',
     ],
   },
   {
     role: 'Community Manager',
     org: 'GLIKAD SAS',
     period: '2020',
-    color: 'border-pink-400',
-    dot: 'bg-pink-400',
+    c: '#3b82f6',
     icon: '📱',
     items: [
-      'Creación de contenido audiovisual con Adobe Premiere y After Effects',
+      'Producción audiovisual con Adobe Premiere y After Effects',
       'Gestión de redes sociales y estrategia de contenidos digitales',
-      'Producción de videos corporativos y campañas digitales',
     ],
   },
   {
     role: 'Operario CNC & Diseñador 3D',
-    org: 'Empresa de Mecanizado Industrial',
-    period: '6 meses',
-    color: 'border-slate-400',
-    dot: 'bg-slate-400',
+    org: 'MAV-MASHO · Taller Metal-Mecánico',
+    period: '2017 – 2018',
+    c: '#94a3b8',
     icon: '⚙️',
     items: [
-      'Diseño de piezas 2D y 3D en AutoCAD',
+      'Diseño 2D y 3D en AutoCAD para piezas de mecanizado de precisión',
       'Operación de fresadoras y tornos CNC (arranque de viruta)',
-      'Mantenimiento y limpieza de maquinaria industrial de precisión',
     ],
   },
   {
-    role: 'Becario de Investigación',
-    org: 'ReLIoT Lab — UTN',
+    role: 'Becario I+D',
+    org: 'ReLIoT Lab · UTN',
     period: '2021',
-    color: 'border-blue-400',
-    dot: 'bg-blue-400',
+    c: '#60a5fa',
     icon: '🔬',
     items: [
-      'Investigación en Reinforcement Learning aplicado al Internet of Things',
-      'Laboratorio de I+D en Universidad Tecnológica Nacional',
-      'Desarrollo de algoritmos de aprendizaje para dispositivos edge',
+      'Reinforcement Learning for the Internet of Things — laboratorio de investigación',
+      'Algoritmos de aprendizaje por refuerzo para dispositivos edge IoT',
     ],
   },
 ];
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-32 px-6 relative">
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
+    <section id="experience" className="py-32 px-8 md:px-16 lg:px-24 relative">
+      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-[var(--accent2)] opacity-[0.03] blur-3xl pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="reveal flex items-center gap-4 mb-4">
-          <span className="font-mono text-cyan-400 text-sm">04.</span>
-          <span className="font-mono text-slate-500 text-sm">work experience</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/30 to-transparent" />
+      <div className="max-w-screen-xl mx-auto">
+        <div className="reveal flex items-center gap-5 mb-3">
+          <span className="section-label text-[var(--accent)]">05</span>
+          <div className="h-line flex-1 max-w-xs" />
         </div>
-        <h2 className="reveal text-4xl md:text-5xl font-black text-white mb-16">
-          Experiencia <span className="gradient-text">Laboral</span>
+        <h2 className="reveal font-black text-white mb-16"
+          style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: 1 }}>
+          Experiencia
         </h2>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-purple-500/30 to-transparent" />
-
-          <div className="space-y-10">
-            {experiences.map((exp, i) => (
-              <div
-                key={exp.role + exp.org}
-                className="reveal relative pl-12"
-                style={{ transitionDelay: `${i * 80}ms` }}
-              >
-                {/* Dot */}
-                <div className={`absolute left-0 top-1.5 w-8 h-8 rounded-full ${exp.dot} flex items-center justify-center text-sm shadow-lg`}>
-                  {exp.icon}
-                </div>
-
-                {/* Card */}
-                <div className={`glass-card p-5 border-l-2 ${exp.color}`}>
-                  <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
-                    <div>
-                      <h3 className="text-white font-bold">{exp.role}</h3>
-                      <p className="text-cyan-400 text-sm font-medium">{exp.org}</p>
-                    </div>
-                    <span className="text-xs font-mono text-slate-400 bg-white/5 px-2.5 py-1 rounded-lg border border-white/10">
-                      {exp.period}
-                    </span>
+        <div className="grid md:grid-cols-2 gap-px bg-[var(--line)]">
+          {exps.map((e, i) => (
+            <div
+              key={e.role + e.org}
+              className="reveal bg-[var(--bg)] p-6 border-l-2"
+              style={{ borderLeftColor: e.c, transitionDelay: `${i * 50}ms` }}
+            >
+              <div className="flex items-start justify-between gap-4 mb-3">
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span>{e.icon}</span>
+                    <h3 className="text-[var(--text)] font-bold text-sm">{e.role}</h3>
                   </div>
-                  <ul className="space-y-1.5">
-                    {exp.items.map((item, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-slate-400">
-                        <span className="text-cyan-500 mt-0.5 flex-shrink-0">▹</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-sm font-medium" style={{ color: e.c }}>{e.org}</p>
                 </div>
+                <span className="mono-badge flex-shrink-0">{e.period}</span>
               </div>
-            ))}
-          </div>
+              <ul className="space-y-1.5">
+                {e.items.map((item, j) => (
+                  <li key={j} className="flex items-start gap-2 text-xs text-[var(--muted)]">
+                    <span className="flex-shrink-0 mt-0.5" style={{ color: e.c }}>▹</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>
