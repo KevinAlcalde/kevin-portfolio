@@ -10,6 +10,7 @@ import GitHubRepos from '../components/GitHubRepos';
 import Experience from '../components/Experience';
 import Achievements from '../components/Achievements';
 import Contact from '../components/Contact';
+import VisitorWidget from '../components/VisitorWidget';
 
 export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -51,6 +52,7 @@ export default function Home() {
         <Achievements />
         <Contact />
       </main>
+      <VisitorWidget />
     </>
   );
 }
