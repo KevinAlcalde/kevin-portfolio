@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '../lib/LanguageContext';
+
 const C = { olive:'#7a9640', gold:'#9a7c30', hi:'#F74C19', green:'#4d7a32', steel:'#5a6a7a', tan:'#8a7040', brown:'#7a5048', dusk:'#6a5870' };
 
 const exps = [
@@ -14,6 +16,7 @@ const exps = [
 ];
 
 export default function Experience() {
+  const { t } = useLanguage();
   return (
     <section id="experience" className="py-32 px-8 md:px-16 lg:px-24 relative">
       <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none"
@@ -25,7 +28,7 @@ export default function Experience() {
           <div className="h-line flex-1 max-w-xs" />
         </div>
         <h2 className="reveal font-black mb-16" style={{ fontSize:'clamp(2.5rem,5vw,4.5rem)', lineHeight:1, color:'var(--text)' }}>
-          Experiencia
+          {t.sec_exp}
         </h2>
 
         <div className="grid md:grid-cols-2 gap-px" style={{ background:'var(--line)' }}>

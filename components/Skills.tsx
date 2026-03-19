@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useLanguage } from '../lib/LanguageContext';
 
 const SkillCloud = dynamic(() => import('./SkillCloud'), { ssr: false });
 
@@ -15,18 +16,18 @@ const C = {
   dusk:   '#6a5870',
 };
 
-const cats = [
-  { title: 'Frontend & 3D',       items: ['React','Next.js','TypeScript','Three.js','WebGL','GLSL Shaders','Tailwind CSS'], c: C.olive  },
-  { title: 'Backend & Automation',items: ['Node.js','Python','Java','C / C++','SQL','PostgreSQL','N8N','Node-RED'],        c: C.gold   },
-  { title: 'Blockchain & Web3',   items: ['Solidity','Hardhat','Ethers.js','Chainlink','Smart Contracts','IPFS'],          c: C.hi     },
-  { title: 'Hardware & IoT',      items: ['Arduino','ESP8266 / ESP32','G-code','MQTT','SCARA Robotics','AutoCAD','CNC'],   c: C.green  },
-  { title: 'Cloud & DevOps',      items: ['AWS (en curso)','Vercel','Docker','Portainer','Git','GitHub','CI/CD'],          c: C.steel  },
-  { title: 'AI & Data',           items: ['OpenAI API','GPT-4o','Whisper','R','Data Analysis','Hacking Ético'],            c: C.tan    },
-  { title: 'Diseño & Producto',   items: ['Figma','Protopie','Rhinoceros 3D','Keyshot','Adobe Premiere','After Effects'],  c: C.brown  },
-  { title: 'Gestión',             items: ['ClickUp','Notion','Trello','Slack','Liderazgo de equipos','Metodologías ágiles'],c: C.dusk  },
-];
-
 export default function Skills() {
+  const { t } = useLanguage();
+  const cats = [
+    { title: t.cat_frontend,    items: ['React','Next.js','TypeScript','Three.js','WebGL','GLSL Shaders','Tailwind CSS'], c: C.olive  },
+    { title: t.cat_backend,     items: ['Node.js','Python','Java','C / C++','SQL','PostgreSQL','N8N','Node-RED'],        c: C.gold   },
+    { title: t.cat_blockchain,  items: ['Solidity','Hardhat','Ethers.js','Chainlink','Smart Contracts','IPFS'],          c: C.hi     },
+    { title: t.cat_hardware,    items: ['Arduino','ESP8266 / ESP32','G-code','MQTT','SCARA Robotics','AutoCAD','CNC'],   c: C.green  },
+    { title: t.cat_cloud,       items: ['AWS (en curso)','Vercel','Docker','Portainer','Git','GitHub','CI/CD'],          c: C.steel  },
+    { title: t.cat_ai,          items: ['OpenAI API','GPT-4o','Whisper','R','Data Analysis','Hacking Ético'],            c: C.tan    },
+    { title: t.cat_design,      items: ['Figma','Protopie','Rhinoceros 3D','Keyshot','Adobe Premiere','After Effects'],  c: C.brown  },
+    { title: t.cat_mgmt,        items: ['ClickUp','Notion','Trello','Slack','Liderazgo de equipos','Metodologías ágiles'],c: C.dusk  },
+  ];
   return (
     <section id="skills" className="py-32 px-8 md:px-16 lg:px-24 relative overflow-hidden">
       <div className="absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl pointer-events-none"
@@ -38,10 +39,10 @@ export default function Skills() {
           <div className="h-line flex-1 max-w-xs" />
         </div>
         <h2 className="reveal font-black mb-4" style={{ fontSize: 'clamp(2.5rem,5vw,4.5rem)', lineHeight: 1, color: 'var(--text)' }}>
-          Stack Técnico
+          {t.sec_skills}
         </h2>
         <p className="reveal mb-16 max-w-lg" style={{ color: 'var(--muted)' }}>
-          De firmware embebido a dApps en Ethereum.
+          {t.skills_sub}
           <span className="font-mono text-xs ml-2" style={{ color: C.olive }}>// drag sphere</span>
         </p>
 

@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '../lib/LanguageContext';
+
 // ── Military palette only ──────────────────────────────────────────
 const C = {
   olive:  '#7a9640',
@@ -10,7 +12,23 @@ const C = {
   tan:    '#8a7040',
 };
 
+// Renders bio text with <hi>, <green>, <text> tags as styled spans
+function BioParagraph({ html, baseColor, hi, green }: { html: string; baseColor: string; hi: string; green: string }) {
+  const parts = html.split(/(<hi>.*?<\/hi>|<green>.*?<\/green>|<text>.*?<\/text>)/g);
+  return (
+    <p className="leading-relaxed" style={{ color: baseColor, fontSize: '1rem' }}>
+      {parts.map((part, i) => {
+        if (part.startsWith('<hi>'))    return <span key={i} style={{ color: hi,    fontWeight: 600 }}>{part.slice(4,-5)}</span>;
+        if (part.startsWith('<green>')) return <span key={i} style={{ color: green }}>{part.slice(7,-8)}</span>;
+        if (part.startsWith('<text>'))  return <span key={i} style={{ color: 'var(--text)' }}>{part.slice(6,-7)}</span>;
+        return part;
+      })}
+    </p>
+  );
+}
+
 export default function About() {
+  const { t } = useLanguage();
   const langs = [
     { lang: 'Español',   level: 'Nativo',              pct: 100, color: C.olive },
     { lang: 'Inglés',    level: 'Avanzado B2 · AMICANA', pct: 85,  color: C.gold  },
@@ -38,32 +56,21 @@ export default function About() {
           <div className="h-line flex-1 max-w-xs" />
         </div>
         <h2 className="reveal font-black mb-16" style={{ fontSize: 'clamp(2.5rem,5vw,4.5rem)', lineHeight: 1, color: 'var(--text)' }}>
-          Sobre mí
+          {t.sec_about}
         </h2>
 
         <div className="grid md:grid-cols-5 gap-12 lg:gap-20">
           {/* Text */}
           <div className="md:col-span-3 reveal space-y-5">
-            <p className="text-lg leading-relaxed" style={{ color: 'var(--text)' }}>
-              Soy <span style={{ color: C.hi, fontWeight: 600 }}>Kevin Alejandro Alcalde</span>,
-              ingeniero electrónico (UTN Mendoza, 4to año) y estudiante de Licenciatura en IA & Robótica (Siglo 21).
-            </p>
-            <p className="leading-relaxed" style={{ color: 'var(--muted)' }}>
-              Me muevo entre hardware y software: diseño firmware para ESP8266, controlo robots SCARA con G-code,
-              escribo smart contracts en Solidity y construyo workflows de IA con n8n + OpenAI.
-              Mi hilo conductor es la <span style={{ color: C.green }}>tecnología sostenible</span>.
-            </p>
-            <p className="leading-relaxed" style={{ color: 'var(--muted)' }}>
-              Presidente de JCI Mendoza 2023, 2do lugar NASA Space Apps 2019 y seleccionado por el{' '}
-              <span style={{ color: 'var(--text)' }}>Departamento de Estado de EE.UU.</span> para el
-              programa <span style={{ color: C.hi }}>YLAI 2024</span>.
-            </p>
+            <BioParagraph html={t.about_bio1} baseColor="var(--text)" hi={C.hi} green={C.green} />
+            <BioParagraph html={t.about_bio2} baseColor="var(--muted)" hi={C.hi} green={C.green} />
+            <BioParagraph html={t.about_bio3} baseColor="var(--muted)" hi={C.hi} green={C.green} />
             <div className="grid grid-cols-2 gap-3 pt-4">
               {[
-                { k: 'Email',     v: 'kevinalejandroalcalde@gmail.com' },
-                { k: 'Ubicación', v: 'Maipú, Mendoza · ARG' },
-                { k: 'WhatsApp',  v: '+549 261 697-4513' },
-                { k: 'Status',    v: 'DISPONIBLE' },
+                { k: 'Email',       v: 'kevinalejandroalcalde@gmail.com' },
+                { k: t.about_loc.split('·')[0].trim().split(',')[0], v: t.about_loc },
+                { k: 'WhatsApp',    v: '+549 261 697-4513' },
+                { k: 'Status',      v: t.about_status },
               ].map((f) => (
                 <div key={f.k} className="card p-3">
                   <div className="section-label mb-1">{f.k}</div>
@@ -77,7 +84,7 @@ export default function About() {
           <div className="md:col-span-2 reveal space-y-10">
             {/* Languages */}
             <div>
-              <h3 className="section-label mb-5" style={{ color: C.olive }}>Idiomas</h3>
+              <h3 className="section-label mb-5" style={{ color: C.olive }}>{t.about_lang_title}</h3>
               <div className="space-y-4">
                 {langs.map((l) => (
                   <div key={l.lang}>
@@ -95,7 +102,7 @@ export default function About() {
 
             {/* Education */}
             <div>
-              <h3 className="section-label mb-5" style={{ color: C.olive }}>Educación</h3>
+              <h3 className="section-label mb-5" style={{ color: C.olive }}>{t.about_edu_title}</h3>
               <div className="space-y-3">
                 {education.map((e) => (
                   <div key={e.title} className="card p-4" style={{ borderLeftWidth: 2, borderLeftColor: e.c }}>

@@ -2,20 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useLanguage } from '../lib/LanguageContext';
 
 const ThemeToggle = dynamic(() => import('./ThemeToggle'), { ssr: false });
 
-const links = [
-  { label: 'about',     href: '#about' },
-  { label: 'skills',    href: '#skills' },
-  { label: 'projects',  href: '#projects' },
-  { label: 'github',    href: '#github' },
-  { label: 'exp',       href: '#experience' },
-  { label: 'logros',    href: '#achievements' },
-  { label: 'contact',   href: '#contact' },
-];
-
 export default function Navigation() {
+  const { t } = useLanguage();
+  const links = [
+    { label: t.nav_about,        href: '#about' },
+    { label: t.nav_skills,       href: '#skills' },
+    { label: t.nav_projects,     href: '#projects' },
+    { label: 'github',           href: '#github' },
+    { label: t.nav_exp,          href: '#experience' },
+    { label: t.nav_achievements, href: '#achievements' },
+    { label: t.nav_contact,      href: '#contact' },
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen]         = useState(false);
 

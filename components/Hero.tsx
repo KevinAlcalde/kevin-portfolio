@@ -2,19 +2,13 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../lib/LanguageContext';
 
 const HeroCanvas = dynamic(() => import('./HeroCanvas'), { ssr: false });
 
-const roles = [
-  'Electronics_Engineer',
-  'Blockchain_Dev',
-  'IoT_Architect',
-  'Startup_Founder',
-  'Full_Stack_Dev',
-  'AI_&_Data_Sci',
-];
-
 export default function Hero() {
+  const { t } = useLanguage();
+  const roles = t.hero_roles;
   const [roleIdx, setRoleIdx] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [deleting, setDeleting] = useState(false);
@@ -108,17 +102,17 @@ export default function Hero() {
             color: 'var(--muted)',
             lineHeight: '1.8',
           }}>
-          <span style={{ color: 'var(--accent)' }}>//</span> Ing. Electrónica UTN + Lic. IA Siglo 21<br />
-          <span style={{ color: 'var(--accent)' }}>//</span> Firmware → Smart Contracts → WebGL<br />
-          <span style={{ color: 'var(--accent)' }}>//</span> 5 startups · NASA 2nd place · YLAI 2024
+          <span style={{ color: 'var(--accent)' }}>//</span> {t.hero_line1}<br />
+          <span style={{ color: 'var(--accent)' }}>//</span> {t.hero_line2}<br />
+          <span style={{ color: 'var(--accent)' }}>//</span> {t.hero_line3}
         </p>
 
         {/* CTA buttons */}
         <div className="flex flex-wrap gap-3 mb-20">
           {[
-            { label: '[ PROYECTOS ]', href: '#projects', primary: true },
-            { label: '[ GITHUB ]',    href: '#github',   primary: false },
-            { label: '[ CONTACTO ]',  href: '#contact',  primary: false },
+            { label: t.hero_cta_projects, href: '#projects', primary: true },
+            { label: '[ GITHUB ]',        href: '#github',   primary: false },
+            { label: t.hero_cta_contact,  href: '#contact',  primary: false },
           ].map((b) => (
             <a
               key={b.href}
@@ -161,7 +155,7 @@ export default function Hero() {
             { n: '#2',    l: 'NASA_SPACE_APPS' },
             { n: 'PDTE',  l: 'JCI_2023' },
             { n: 'YLAI',  l: 'US_DEPT_STATE_2024' },
-            { n: '04',    l: 'IDIOMAS' },
+            { n: '04',    l: t.hero_stat_languages },
           ].map((s) => (
             <div key={s.l}>
               <div style={{
@@ -179,7 +173,7 @@ export default function Hero() {
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-8 md:left-16 lg:left-24 flex items-center gap-3">
         <div className="w-px h-8 animate-pulse" style={{ background: 'rgba(122,150,64,0.2)' }} />
-        <span className="section-label">SCROLL_DOWN</span>
+        <span className="section-label">{t.hero_scroll}</span>
       </div>
     </section>
   );

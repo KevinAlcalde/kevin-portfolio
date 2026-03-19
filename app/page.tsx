@@ -11,6 +11,7 @@ import Experience from '../components/Experience';
 import Achievements from '../components/Achievements';
 import Contact from '../components/Contact';
 import VisitorWidget from '../components/VisitorWidget';
+import { LanguageProvider } from '../lib/LanguageContext';
 
 export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -39,7 +40,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <LanguageProvider>
       <div ref={cursorRef} className="cursor-glow" />
       <Navigation />
       <main>
@@ -53,6 +54,6 @@ export default function Home() {
         <Contact />
       </main>
       <VisitorWidget />
-    </>
+    </LanguageProvider>
   );
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '../lib/LanguageContext';
+
 const C = { olive:'#7a9640', gold:'#9a7c30', hi:'#F74C19', green:'#4d7a32', steel:'#5a6a7a', tan:'#8a7040', brown:'#7a5048', dusk:'#6a5870' };
 
 const featured = [
@@ -31,6 +33,7 @@ const courses = [
 ];
 
 export default function Achievements() {
+  const { t } = useLanguage();
   return (
     <section id="achievements" className="py-32 px-8 md:px-16 lg:px-24 relative">
       <div className="absolute bottom-0 left-1/2 w-96 h-64 -translate-x-1/2 rounded-full blur-3xl pointer-events-none"
@@ -42,7 +45,7 @@ export default function Achievements() {
           <div className="h-line flex-1 max-w-xs" />
         </div>
         <h2 className="reveal font-black mb-16" style={{ fontSize:'clamp(2.5rem,5vw,4.5rem)', lineHeight:1, color:'var(--text)' }}>
-          Logros
+          {t.sec_ach}
         </h2>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px mb-20" style={{ background:'var(--line)' }}>
@@ -66,7 +69,7 @@ export default function Achievements() {
         </div>
 
         <div className="reveal">
-          <h3 className="section-label mb-6" style={{ color:C.olive }}>Cursos & Certificaciones</h3>
+          <h3 className="section-label mb-6" style={{ color:C.olive }}>{t.ach_courses}</h3>
           <div className="flex flex-wrap gap-2">
             {courses.map((c) => (
               <span

@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '../lib/LanguageContext';
+
 const links = [
   { label:'Email',    val:'kevinalejandroalcalde@gmail.com', href:'mailto:kevinalejandroalcalde@gmail.com', c:'#7a9640' },
   { label:'GitHub',   val:'github.com/KevinAlcalde',         href:'https://github.com/KevinAlcalde',         c:'#8a8870' },
@@ -8,6 +10,7 @@ const links = [
 ];
 
 export default function Contact() {
+  const { t } = useLanguage();
   return (
     <section id="contact" className="py-32 px-8 md:px-16 lg:px-24 relative">
       <div className="h-line mb-0" />
@@ -24,7 +27,7 @@ export default function Contact() {
             className="font-black"
             style={{ fontSize:'clamp(3rem,8vw,8rem)', lineHeight:0.9, color:'var(--text)' }}
           >
-            Let&apos;s build<br />
+            {t.sec_contact}<br />
             <span style={{
               background:'linear-gradient(120deg, #7a9640 0%, #F74C19 55%, #9a7c30 100%)',
               WebkitBackgroundClip:'text',
@@ -40,9 +43,7 @@ export default function Contact() {
           {/* Left */}
           <div className="reveal">
             <p className="text-lg leading-relaxed mb-8" style={{ color:'var(--muted)' }}>
-              Busco oportunidades en{' '}
-              <span style={{ color:'var(--text)' }}>ingeniería electrónica, desarrollo web/Web3 o proyectos de impacto</span>.
-              También abierto a colaboraciones, mentoring y open-source.
+              {t.contact_desc}
             </p>
             <a
               href="mailto:kevinalejandroalcalde@gmail.com"
@@ -67,7 +68,7 @@ export default function Contact() {
                 (e.currentTarget as HTMLElement).style.color = '#fff';
               }}
             >
-              Escribime →
+              {t.contact_cta}
             </a>
           </div>
 
@@ -101,8 +102,8 @@ export default function Contact() {
         {/* Footer */}
         <div className="h-line mt-20 mb-8" />
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <span className="section-label">Kevin Alejandro Alcalde · Maipú, Mendoza, Argentina</span>
-          <span className="section-label">Next.js · Three.js · WebGL · GLSL</span>
+          <span className="section-label">{t.contact_footer1}</span>
+          <span className="section-label">{t.contact_footer2}</span>
         </div>
       </div>
     </section>
